@@ -1,21 +1,12 @@
 import anim from "./anim.js"
 import { inputValue } from "./addTodo.js"
 import deleteTasks from "./delTasks.js";
+import emtytask from "./emptyTask.js";
 
-const init = (taskState) => {
+
+const init = (taskState, listState) => {
   const task = document.createElement('div'),
     taskList = document.querySelector('#tasksList');
-
-
-  let titleVal = inputValue()
-  const listState = {
-    id: Date.now(),
-    title: titleVal,
-    status: false,
-    dataId: Date.now()
-  };
-
-  taskState.push(listState)
 
 
   const classStatus = taskState.status ? 'task-title task-title--done' : 'task-title'
@@ -39,6 +30,8 @@ const init = (taskState) => {
   anim(`[data-id="${listState.id}"]`)
 
 
+
+
   //<-- task buttons -->//
   const todoActions = document.querySelectorAll('[data-action]')
 
@@ -48,8 +41,17 @@ const init = (taskState) => {
       btn.addEventListener('click', e => {
         if (e.target == btn) {
 
+          const taskItem = e.target.closest('.task-item'),
+            id = taskItem.id;
+
+          const todoId = taskState.find(item => item.id == id)
+
+          todoId.status = !todoId.status
+
+
+
           const task = e.target.closest('.list-group-item')
-          task.children[0].classList.add('task-title--done')
+          task.children[0].classList.toggle('task-title--done')
         }
       })
     } else {
@@ -62,8 +64,16 @@ const init = (taskState) => {
 
           taskState = taskState.filter(item => item.id != id)
 
+          emtytask(taskState)
+          console.log(taskState)
+
           taskItem.parentNode.remove();
-          console.log(taskState, id)
+
+
+          if (!taskList.children.length) {
+            localStorage.clear()
+          }
+
 
         }
       })

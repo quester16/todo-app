@@ -4,6 +4,7 @@ import init from './initTask.js'
 import { inputValue } from "./addTodo.js"
 // import localstorage from './localstorage.js'
 import delTasks from './delTasks.js'
+import emptyTask from './emptyTask.js'
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -22,11 +23,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
   let taskState = []
+  emptyTask(taskState)
 
   anim()
   addTodo(taskState)
   delTasks()
 
-
+  if (!localStorage.getItem('todo')) {
+    console.log('epmty localstorage ')
+  } else {
+    taskList.innerHTML = `${localStorage.getItem('todo')}`
+  }
 
 })

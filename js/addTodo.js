@@ -1,10 +1,11 @@
 import anim from "./anim.js";
 import init from "./initTask.js";
+import emtytask from "./emptyTask.js";
 
 function addTodo(taskState) {
   const btn = document.querySelector('.btn-primary'),
     input = document.querySelector('form input'),
-    emptyField = document.querySelector('#emptyList');
+    taskList = document.querySelector('#tasksList');
 
 
   btn.addEventListener('click', e => {
@@ -12,13 +13,25 @@ function addTodo(taskState) {
 
 
     if (value) {
-      emptyField.remove()
       e.preventDefault()
-      init(taskState)
+
+      let titleVal = inputValue()
+      const listState = {
+        id: Date.now(),
+        title: titleVal,
+        status: false,
+        dataId: Date.now()
+      };
+
+
+      taskState.push(listState)
+      console.log(listState, taskState)
+
+      init(taskState, listState)
+      emtytask(taskState)
     } else {
 
     }
-
 
 
     input.value = ''
