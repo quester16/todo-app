@@ -1,6 +1,6 @@
 import anim from "./anim.js"
 import addTodo from './addTodo.js'
-import init from './initTask.js'
+import state from './changeState.js'
 import { inputValue } from "./addTodo.js"
 // import localstorage from './localstorage.js'
 import delTasks from './delTasks.js'
@@ -20,9 +20,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const emptyField = document.querySelector('#emptyList'),
     taskList = document.querySelector('#tasksList');
 
-
-
   let taskState = []
+
+
   emptyTask(taskState)
 
   anim()

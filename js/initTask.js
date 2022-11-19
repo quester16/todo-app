@@ -1,13 +1,24 @@
 import anim from "./anim.js"
-import { inputValue } from "./addTodo.js"
-import deleteTasks from "./delTasks.js";
+import addTodo, { inputValue } from "./addTodo.js"
+import state from "./changeState.js";
 import emtytask from "./emptyTask.js";
 
 
-const init = (taskState, listState) => {
+const init = (taskState) => {
   const task = document.createElement('div'),
     taskList = document.querySelector('#tasksList');
 
+
+  let titleVal = inputValue()
+  const listState = {
+    id: Date.now(),
+    title: titleVal,
+    status: false,
+    dataId: Date.now()
+  };
+
+
+  taskState.push(listState)
 
   const classStatus = taskState.status ? 'task-title task-title--done' : 'task-title'
 
@@ -57,29 +68,31 @@ const init = (taskState, listState) => {
     } else {
       btn.addEventListener('click', e => {
 
-        if (e.target == btn) {
+        const taskItem = e.target.closest('.task-item'),
+          id = taskItem.id;
 
-          const taskItem = e.target.closest('.task-item'),
-            id = taskItem.id;
+        const fId = taskState.findIndex(item => item.id == id)
+        console.log(fId)
 
-          taskState = taskState.filter(item => item.id != id)
+        fId != -1 ? taskState.splice(fId, 1) && emtytask(taskState) : null
+        console.log(taskState)
+        addTodo(taskState)
 
-          emtytask(taskState)
-          console.log(taskState)
+        // emtytask(taskState)
 
-          taskItem.parentNode.remove();
-
-
-          if (!taskList.children.length) {
-            localStorage.clear()
-          }
+        taskItem.parentNode.remove();
 
 
+        if (!taskList.children.length) {
+          localStorage.clear()
         }
+
+
       })
     }
   })
 
+  return taskState
 }
 
 export default init;

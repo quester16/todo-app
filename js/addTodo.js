@@ -1,4 +1,4 @@
-import anim from "./anim.js";
+import state from "./changeState.js";
 import init from "./initTask.js";
 import emtytask from "./emptyTask.js";
 
@@ -15,19 +15,12 @@ function addTodo(taskState) {
     if (value) {
       e.preventDefault()
 
-      let titleVal = inputValue()
-      const listState = {
-        id: Date.now(),
-        title: titleVal,
-        status: false,
-        dataId: Date.now()
-      };
 
 
-      taskState.push(listState)
-      console.log(listState, taskState)
+      init(taskState)
+      console.log(state(taskState))
 
-      init(taskState, listState)
+
       emtytask(taskState)
     } else {
 
