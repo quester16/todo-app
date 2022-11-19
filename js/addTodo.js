@@ -1,4 +1,3 @@
-import state from "./changeState.js";
 import init from "./initTask.js";
 import emtytask from "./emptyTask.js";
 
@@ -16,9 +15,7 @@ function addTodo(taskState) {
       e.preventDefault()
 
 
-
       init(taskState)
-      console.log(state(taskState))
 
 
       emtytask(taskState)

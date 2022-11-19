@@ -1,6 +1,7 @@
+import anim from "./anim.js";
+
 function emtytask(taskState) {
   const taskList = document.querySelector('#tasksList');
-  // console.log(taskState)
 
   if (!taskState.length) {
     const emptyField = `
@@ -10,6 +11,7 @@ function emtytask(taskState) {
     </li>`;
 
     taskList.insertAdjacentHTML('afterbegin', emptyField)
+    anim('#tasksList')
   } else {
     const emptyElem = document.querySelector('#emptyList');
     emptyElem ? emptyElem.remove() : null

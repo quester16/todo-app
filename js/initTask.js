@@ -1,6 +1,5 @@
 import anim from "./anim.js"
-import addTodo, { inputValue } from "./addTodo.js"
-import state from "./changeState.js";
+import { inputValue } from "./addTodo.js"
 import emtytask from "./emptyTask.js";
 
 
@@ -44,52 +43,45 @@ const init = (taskState) => {
 
 
   //<-- task buttons -->//
-  const todoActions = document.querySelectorAll('[data-action]')
-
-  todoActions.forEach(btn => {
-    if (btn.getAttribute('data-action') == 'done') {
-
-      btn.addEventListener('click', e => {
-        if (e.target == btn) {
-
-          const taskItem = e.target.closest('.task-item'),
-            id = taskItem.id;
-
-          const todoId = taskState.find(item => item.id == id)
-
-          todoId.status = !todoId.status
+  const doneBtn = document.querySelectorAll('[data-action="done"]')
+  const delBtn = document.querySelectorAll('[data-action="delete"]')
 
 
+  doneBtn.forEach(btn => {
+    btn.addEventListener('click', e => {
+      console.log('done')
+      const taskItem2 = btn.closest('.task-item'),
+        id2 = taskItem2.id;
 
-          const task = e.target.closest('.list-group-item')
-          task.children[0].classList.toggle('task-title--done')
-        }
-      })
-    } else {
-      btn.addEventListener('click', e => {
+      const task = btn.closest('.list-group-item')
+      task.children[0].classList.add('task-title--done')
 
-        const taskItem = e.target.closest('.task-item'),
-          id = taskItem.id;
+      const todoId = taskState.find(item => item.id == id2)
 
-        const fId = taskState.findIndex(item => item.id == id)
-        console.log(fId)
+      todoId.status = !todoId.status
+    })
+  })
 
-        fId != -1 ? taskState.splice(fId, 1) && emtytask(taskState) : null
-        console.log(taskState)
-        addTodo(taskState)
+  delBtn.forEach(btn => {
+    btn.addEventListener('click', e => {
+      console.log('del')
 
-        // emtytask(taskState)
+      const taskItem3 = e.target.closest('.task-item'),
+        id3 = taskItem3.id;
 
-        taskItem.parentNode.remove();
+      const fId = taskState.findIndex(item => item.id == id3)
+      console.log(fId)
 
+      fId != -1 ? taskState.splice(fId, 1) && emtytask(taskState) : null
+      // addTodo(taskState)
 
-        if (!taskList.children.length) {
-          localStorage.clear()
-        }
+      taskItem3.parentNode.remove();
+      gsap.fromTo('.task', { y: 0 }, { y: -10 })
 
-
-      })
-    }
+      if (!taskList.children.length) {
+        localStorage.clear()
+      }
+    })
   })
 
   return taskState
